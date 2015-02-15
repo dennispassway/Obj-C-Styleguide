@@ -400,51 +400,6 @@ UIColor *myColor = [UIColor whiteColor];
 UIColor *myColour = [UIColor whiteColor];
 ```
 
-
-## Code Organization
-
-Use `#pragma mark -` to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
-
-```objc
-#pragma mark - Lifecycle
-
-- (instancetype)init {}
-- (void)dealloc {}
-- (void)viewDidLoad {}
-- (void)viewWillAppear:(BOOL)animated {}
-- (void)didReceiveMemoryWarning {}
-
-#pragma mark - Custom Accessors
-
-- (void)setCustomProperty:(id)value {}
-- (id)customProperty {}
-
-#pragma mark - IBActions
-
-- (IBAction)submitData:(id)sender {}
-
-#pragma mark - Public
-
-- (void)publicMethod {}
-
-#pragma mark - Private
-
-- (void)privateMethod {}
-
-#pragma mark - Protocol conformance
-#pragma mark - UITextFieldDelegate
-#pragma mark - UITableViewDataSource
-#pragma mark - UITableViewDelegate
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {}
-
-#pragma mark - NSObject
-
-- (NSString *)description {}
-```
-
 ## Naming
 
 Apple naming conventions should be adhered to wherever possible, especially those related to [memory management rules](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/MemoryMgmt/Articles/MemoryMgmt.html) ([NARC](http://stackoverflow.com/a/2865194/340508)).
@@ -1178,19 +1133,6 @@ Property definitions should be used in place of ivars. When defining properties,
 *Note: IBOutlets should be `weak` unless they are a top-level item in a xib (e.g. the top-level view is `strong`, anything beneath it is `weak`)
 
 Info about the overhead and performance of properties vs ivars can be found [here](http://blog.bignerdranch.com/4005-should-i-use-a-property-or-an-instance-variable/).
-
-xib Files
-=========
-xib files should always be saved in their language-specific folders.  The default folder for English is `en.lproj`.
-xib file names should end in `view`, `menu` or `window` but never `controller` (as xibs are *not* controllers).
-
-Give descriptive labels to views to make them easier to recognize, preferrably the same name as the referencing outlet if there is one.
-
-![](http://f.cl.ly/items/3A2k2Z2m0n2t0b1L2V3n/Screen%20Shot%202013-06-05%20at%201.15.36%20PM.png)
-
-Boyscout / Girl Guide
-=====================
-Always leave the code in better condition than you found it.
 
 Proper Code Nutrition
 =====================
