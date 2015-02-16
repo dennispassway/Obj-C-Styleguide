@@ -1,4 +1,4 @@
-# My Objective-C bible
+# My Objective-C Bible
 I've started Objective-C development and like to learn from the sources that are available on the interwebs to determine the best style of coding for Objective-C. This is my Objective-C reference and it should be seen as a concatenation of multiple styleguides and tips to use for my own reference and benefits.
 
 # Styleguide
@@ -757,14 +757,45 @@ We can see that this is checking if the pin is longer than the max allowed.
 tipsndtricks description
 
 # Plugins
-plugins description
+There's a few plugins that I consider a must have while developing for iOS with Xcode. They're all available for free!
+
+**Alcatraz**
+The package manager for Xcode. With this you can install and manage all your Xcode plugins, and all the listed plugins are available on Alcatraz.
+[Alcatraz](http://alcatraz.io/)
+
+**Backlight**
+Highlights the current editing line in Xcode.
+[Backlight](https://github.com/limejelly/Backlight-for-XCode)
+
+**CocoaPods**
+CocoaPods integration, right into Xcode.
+[CocoaPods](https://github.com/kattrali/cocoapods-xcode-plugin)
+
+**FuzzyAutocomplete**
+Enables fuzzy matching in Xcode's autocomplete, using the 'Open Quicly' algorithm.
+[FuzzyAutocomplete](https://github.com/FuzzyAutocomplete/FuzzyAutocompletePlugin)
+
+**GitDiff**
+Highlights differences against git repo in Xcode source editor.
+[GitDiff](https://github.com/johnno1962/GitDiff)
+
+**KSImageNamed**
+Xcode plugin that provides autocomplete for imagenamed functions.
+[KSImageNamed](https://github.com/ksuther/KSImageNamed-Xcode)
+
+**VVDocumenter-Xcode**
+Xcode plugin which helps you write Javadoc style document easier.
+[VVDocumenter-Xcode](https://github.com/onevcat/VVDocumenter-Xcode)
+
+**XAlign**
+An amazing plugin to align regular code. It can align anything in any way you want.
+[XAlign](https://github.com/qfish/XAlign)
 
 # Links
-links description
+Here i'll list some awesome links that are related to iOS development.
 
 ## Apple's documentation
-Apple's official coding guidelines:
-
+Apple's official coding guidelines
 * [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
 * [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
 * [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
