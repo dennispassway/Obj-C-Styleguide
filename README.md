@@ -4,7 +4,42 @@ I've started Objective-C development and like to learn from the sources that are
 # Styleguide
 The styleguide contains a style of coding. This styleguide is assembled by putting together some styleguides that are available on the web.
 
-## Dot-Notation Syntax
+## Properties
+
+### Property Attributes
+Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder. The `*` should be **nearest** the variable, not the type.
+
+**Example**
+```objc
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) NSString *tutorialName;
+```
+
+Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`. Even if you declared a property as `NSString` somebody might pass in an instance of an `NSMutableString` and then change it without you noticing that.  
+
+**Example**
+```objc
+@property (copy, nonatomic) NSString *tutorialName;
+
+// Wrong
+@property (strong, nonatomic) NSString *tutorialName;
+```
+
+Note: IBOutlets should be `weak` unless they are a top-level item in a xib (e.g. the top-level view is `strong`, anything beneath it is `weak`).
+
+### Naming of Properties
+Properties and local variables should be camel-case with the leading word being lowercase. They should be named as descriptively as possible. Single letter variable names should be avoided except in `for()` loops.
+
+When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.
+
+**Local variables should not contain underscores.**
+
+**Example**
+```objc
+@synthesize descriptiveVariableName = _descriptiveVariableName;
+```
+
+### Dot-Notation Syntax
 Dot-notation should **always** be used for accessing and mutating properties. Bracket notation is preferred in all other instances.
 
 **Example**
@@ -12,6 +47,106 @@ Dot-notation should **always** be used for accessing and mutating properties. Br
 view.backgroundColor = [UIColor orangeColor];
 [UIApplication sharedApplication].delegate;
 ```
+
+### Private Properties
+Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `OBCPrivate` or `private`) should never be used unless extending another class.
+
+**Example**
+```objc
+@interface OBCAdvertisement ()
+
+@property (nonatomic, strong) GADBannerView *googleAdView;
+@property (nonatomic, strong) ADBannerView *iAdView;
+@property (nonatomic, strong) UIWebView *adXWebView;
+
+@end
+```
+
+### Qualifiers
+When it comes to the variable qualifiers, the qualifier (`__strong`, `__weak`, `__unsafe_unretained`, `__autoreleasing`) should be placed between the asterisks and the variable name, e.g., `NSString * __weak text`.
+
+### Magic Numbers
+Avoid magic numbers with no meaning, preferring instead a named variable or constant (see following examples).
+
+**Good**
+```objc
+if ([pin length] > RBKPinSizeMax)
+
+// Wrong
+if ([pin length] < 5)
+```
+
+What is the second example checking for? We can see that the first example is checking if the pin is longer than the max allowed.
+
+## Methods
+In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument. The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
+
+The method signatures uses lower camel case and start with an action. Also, be descriptive: make the word before the argument describe the argument.
+
+**Example**:
+```objc
+- (IBAction)showDetailViewController:(id)sender
+- (id)viewWithTag:(NSInteger)tag;
+- (void)setExampleText:(NSString *)text image:(UIImage *)image;
+- (void)sendAction:(SEL)aSelector to:(id)anObject forAllCells:(BOOL)flag;
+- (id)viewWithTag:(NSInteger)tag;
+- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
+```
+
+### Getters
+If the method returns an attribute of the receiver, name the method after the attribute.  The use of "get" is unnecessary, unless one or more values are returned indirection.
+
+**Example**
+```objc
+- (NSInteger)age
+```
+
+
+
+
+
+
+## Code style
+
+### Language
+US English should be used, no British!
+
+**Example**
+```objc
+// Right
+UIColor *myColor = [UIColor greyColor];
+
+// Wrong
+UIColor *myColour = [UIColor grayColor];
+```
+
+### Naming
+Long, descriptive method and variable names are good.
+
+**Examples**
+```objc
+UIButton *settingsButton;
+
+// Wrong
+UIButton *setBut;
+```
+
+```objc
+static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDuration = 0.3;
+// Wrong
+static NSTimeInterval const fadetime = 1.7;
+```
+
+
+
+## Structure
+
+
+
+
+
+
+
 
 ## Spacing
 * Indent using 4 spaces. Never indent with tabs. **Be sure to set this preference in Xcode.**
@@ -60,38 +195,12 @@ if (![self trySomethingWithError:&error]) {
 }
 ```
 
-## Variables
-* Variables should be named as descriptively as possible. Single letter variable names should be avoided except in `for()` loops.
-* Asterisks indicating pointers belong with the variable, e.g., `NSString *text` not `NSString* text` or `NSString * text`, except in the case of constants.
-* Property definitions should be used in place of naked instance variables whenever possible. Direct instance variable access should be avoided except in initializer methods (`init`, `initWithCoder:`, etc…), `dealloc` methods and within custom setters and getters.
-
-**Example**
-```objc
-@interface NYTSection: NSObject
-
-@property (nonatomic) NSString *headline;
-
-@end
-```
-
-### Variable Qualifiers
-When it comes to the variable qualifiers, the qualifier (`__strong`, `__weak`, `__unsafe_unretained`, `__autoreleasing`) should be placed between the asterisks and the variable name, e.g., `NSString * __weak text`.
-
-### Prefixing
+## Prefixing
 A three letter prefix (e.g. `OBC`) should always be used for **class names** and **constants**, however may be omitted for Core Data entity names. Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
 
 **Example**
 ```objc
 static const NSTimeInterval OBCArticleViewControllerNavigationFadeAnimationDuration = 0.3;
-```
-
-Properties and local variables should be camel-case with the leading word being lowercase.
-
-Instance variables should be camel-case with the leading word being lowercase, and should be prefixed with an underscore. This is consistent with instance variables synthesized automatically by LLVM. **If LLVM can synthesize the variable automatically, then let it.**
-
-**Example**
-```objc
-@synthesize descriptiveVariableName = _descriptiveVariableName;
 ```
 
 ## Comments
@@ -143,10 +252,8 @@ CGFloat x = CGRectGetMinX(frame);
 CGFloat y = CGRectGetMinY(frame);
 CGFloat width = CGRectGetWidth(frame);
 CGFloat height = CGRectGetHeight(frame);
-```
 
-**Not**
-```objc
+// Wrong
 CGRect frame = self.view.frame;
 CGFloat x = frame.origin.x;
 CGFloat width = frame.size.width;
@@ -160,20 +267,6 @@ Constants are preferred over in-line string literals or numbers, as they allow f
 static NSString * const NYTAboutViewControllerCompanyName = @"The New York Times Company";
 
 static const CGFloat NYTImageThumbnailHeight = 50.0;
-```
-
-## Private Properties
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. Named categories (such as `NYTPrivate` or `private`) should never be used unless extending another class.
-
-**Example**
-```objc
-@interface NYTAdvertisement ()
-
-@property (nonatomic, strong) GADBannerView *googleAdView;
-@property (nonatomic, strong) ADBannerView *iAdView;
-@property (nonatomic, strong) UIWebView *adXWebView;
-
-@end
 ```
 
 ## Image Naming
@@ -220,73 +313,7 @@ If there is more than one import statement, group the statements together. Comme
 ## Xcode project
 The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
 
-## Language
-US English should be used, no British!
 
-**Example**
-```objc
-// Right
-UIColor *myColor = [UIColor greyColor];
-
-// Wrong
-UIColor *myColour = [UIColor grayColor];
-```
-
-## Naming
-Long, descriptive method and variable names are good.
-
-**Examples**
-```objc
-UIButton *settingsButton;
-
-// Wrong
-UIButton *setBut;
-```
-
-```objc
-static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDuration = 0.3;
-// Wrong
-static NSTimeInterval const fadetime = 1.7;
-```
-
-### Underscores
-When using properties, instance variables should always be accessed and mutated using `self.`. This means that all properties will be visually distinct, as they will all be prefaced with `self.`. An exception to this: inside initializers, the backing instance variable (i.e. _variableName) should be used directly to avoid any potential side effects of the getters/setters.
-
-**Local variables should not contain underscores.**
-
-## Methods
-In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument. The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
-
-**Examples**:
-```objc
-- (void)setExampleText:(NSString *)text image:(UIImage *)image;
-```
-
-```objc
-- (void)setExampleText:(NSString *)text image:(UIImage *)image;
-- (void)sendAction:(SEL)aSelector to:(id)anObject forAllCells:(BOOL)flag;
-- (id)viewWithTag:(NSInteger)tag;
-- (instancetype)initWithWidth:(CGFloat)width height:(CGFloat)height;
-```
-
-## Property Attributes
-Property attributes should be explicitly listed, and will help new programmers when reading the code.  The order of properties should be storage then atomicity, which is consistent with automatically generated code when connecting UI elements from Interface Builder.
-
-**Example**
-```objc
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (strong, nonatomic) NSString *tutorialName;
-```
-
-Properties with mutable counterparts (e.g. NSString) should prefer `copy` instead of `strong`. Even if you declared a property as `NSString` somebody might pass in an instance of an `NSMutableString` and then change it without you noticing that.  
-
-**Example**
-```objc
-@property (copy, nonatomic) NSString *tutorialName;
-
-// Wrong
-@property (strong, nonatomic) NSString *tutorialName;
-```
 
 ## Case Statements
 Braces are not required for case statements, unless enforced by the complier.  
@@ -635,46 +662,7 @@ Note: This method is obviously incomplete and may not, *architecturally* be opti
 - (NSString *)description {}
 ```
 
-## Method Signatures
-* Use lower camel case
-* Start with action
 
-**Example**
-```objc
-- (IBAction)showDetailViewController:(id)sender
-```
-
-## Getters
-If the method returns an attribute of the receiver, name the method after the attribute.  The use of "get" is unnecessary, unless one or more values are returned indirection.
-
-**Example**
-```objc
-- (NSInteger)age
-```
-
-## Return Type Spacing
-For consistency method definitions should have a space between the + or - (scope) and the return type (matching Apple's style).
-
-**Example**
-```objc
-- (int)age
-```
-
-## Be Descriptive
-Make the word before the argument describe the argument.
-
-**Example**
-```objc
-- (id)viewWithTag:(NSInteger)tag;
-```
-
-## Signature Spacing
-Method parameters should not have a space between the keyword and the parameter.
-
-**Example**
-```objc
-- (void)setExample:(NSString *)text;
-```
 
 ## Classes
 Class names use upper camel case, ie First word capitalized, start of new words capitalized as well.  In general there should be one class per .h/.m file.
@@ -703,44 +691,6 @@ Class name prefixes may be avoided for CoreData entity names.
 Avoid using overly simple names like "Model" "View" or "Object".  
 
 When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
-
-## Properties
-
-## Pointer Spacing
-The `*` should be **nearest** the variable, not the type.
-
-**Example**
-```objc
-NSString *text = @"foo";
-```
-
-## @property
-Property definitions should be used in place of ivars. When defining properties, put strong/weak/retain/assign first then nonatomic for consistency.
-
-**Example**
-```objc
-@property (weak, nonatomic) IBOutlet UIWebView *messageWebView;
-```    
-
-*Note: IBOutlets should be `weak` unless they are a top-level item in a xib (e.g. the top-level view is `strong`, anything beneath it is `weak`)
-
-## Proper Code Nutrition
-Avoid magic numbers with no meaning, preferring instead a named variable or constant (see following examples).
-
-### Integers
-**Bad**
-```objc
-if ([pin length] < 5)
-```
-
-What is this checking for?
-
-**Good**
-```objc
-if ([pin length] > RBKPinSizeMax)
-```
-
-We can see that this is checking if the pin is longer than the max allowed.
 
 ## Basic Code Principles
 * Each function/method should aim to perform one action/task that reflects it's name.
