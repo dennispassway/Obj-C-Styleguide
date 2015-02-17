@@ -137,20 +137,12 @@ static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDura
 static NSTimeInterval const fadetime = 1.7;
 ```
 
-
-
-## Structure
-
-
-
-
-
-
-
-
-## Spacing
+### Spacing
 * Indent using 4 spaces. Never indent with tabs. **Be sure to set this preference in Xcode.**
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but closes on a new line.
+* There should be exactly one blank line between methods to aid in visual clarity and organization.
+* Whitespace within methods should separate functionality, but often there should probably be new methods.
+* `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
 
 **Example**
 ```objc
@@ -162,19 +154,38 @@ else {
 }
 ```
 
-* There should be exactly one blank line between methods to aid in visual clarity and organization.
-* Whitespace within methods should separate functionality, but often there should probably be new methods.
-* `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
 
-## Conditionals
-Conditional bodies should always use braces even when a conditional body could be written without braces. This style is more consistent with all other conditionals, and therefore more easily scannable.
+
+## Structure
+
+
+
+
+
+
+
+
+
+
+
+
+#### Golden Path
+When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
 
 **Example**
 ```objc
-if (!error) {
-    return success;
+- (void)someMethod {
+  if (![someOther boolValue]) {
+  return;
+  }
+
+  //Do something important
 }
 ```
+
+
+
+
 
 ## Ternary Operator
 The Ternary operator, ? , should only be used when it increases clarity or code neatness. A single condition is usually all that should be used, multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
@@ -193,14 +204,6 @@ NSError *error;
 if (![self trySomethingWithError:&error]) {
     // Handle Error
 }
-```
-
-## Prefixing
-A three letter prefix (e.g. `OBC`) should always be used for **class names** and **constants**, however may be omitted for Core Data entity names. Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity.
-
-**Example**
-```objc
-static const NSTimeInterval OBCArticleViewControllerNavigationFadeAnimationDuration = 0.3;
 ```
 
 ## Comments
@@ -286,28 +289,9 @@ Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Neve
 if (!someObject) {
   // Something
 }
-```
 
-**`BOOL` example**
-```objc
-if (isAwesome)
+// BOOL example
 if (![someObject boolValue])
-```
-
-## Imports
-If there is more than one import statement, group the statements together. Commenting each group is optional. For modules use the `@import` syntax.
-
-**Example**
-```objc
-// Frameworks
-@import QuartzCore;
-
-// Models
-#import "NYTUser.h"
-
-// Views
-#import "NYTButton.h"
-#import "NYTUserView.h"
 ```
 
 ## Xcode project
@@ -318,26 +302,6 @@ The physical files should be kept in sync with the Xcode project files in order 
 ## Case Statements
 Braces are not required for case statements, unless enforced by the complier.  
 When a case contains more than one line, braces should be added.
-
-**Example**
-```objc
-switch (condition) {
-  case 1:
-    // ...
-    break;
-  case 2: {
-    // ...
-    // Multi-line example using braces
-    break;
-  }
-  case 3:
-    // ...
-    break;
-  default: 
-    // ...
-    break;
-}
-```
 
 There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.
 
@@ -365,22 +329,12 @@ Where class constructor methods are used, these should always return type of 'in
 @end
 ```
 
-## Golden Path
-When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
 
-**Example**
-```objc
-- (void)someMethod {
-  if (![someOther boolValue]) {
-  return;
-  }
-
-  //Do something important
-}
-```
 
 ## Whitespace
-* Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
+
+### Imports
+Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
 
 **Example**
 ``` obj-c
@@ -393,7 +347,8 @@ When coding with conditionals, the left hand margin of the code should be the "g
 @interface MyClass
 ```
 
-* Use one empty line between class extension and implementation in .m file.
+### Interface and implementation
+Use one empty line between class extension and implementation in .m file.
 
 **Example**
 ``` obj-c
@@ -410,9 +365,8 @@ When coding with conditionals, the left hand margin of the code should be the "g
 @end
 
 ```
-
-* Always end a file with a newline.
-* When using pragma marks leave 1 newline before and after.
+### Pragma mark
+When using pragma marks leave 1 newline before and after.
 
 **Example**
 ``` obj-c
@@ -427,7 +381,8 @@ When coding with conditionals, the left hand margin of the code should be the "g
 }
 ```
 
-* When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
+### Math Operators
+When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
 
 **Example**
 ```obj-c
@@ -445,6 +400,7 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
 }
 ```
 
+* Always end a file with a newline.
 * Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have >= 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
 
 **Example**
@@ -742,7 +698,7 @@ An amazing plugin to align regular code. It can align anything in any way you wa
 [XAlign](https://github.com/qfish/XAlign)
 
 # Links
-Here i'll list some awesome links that are related to iOS development.
+Here are some awesome links that are related to iOS development.
 
 ## Apple's documentation
 Apple's official coding guidelines
