@@ -370,92 +370,20 @@ Use one empty line between class extension and implementation in .m file.
 When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
 
 * When doing logic, a single space should follow the `if` and a single space should preceed the `{`
-
-**Example**
-```obj-c
-NSInteger index = rand() % 50 + 25; // arc4random_uniform(50) should be used insted of `rand() % 50`, but doesn't illustrate the principle well
-index++;
-index += 1;
-index--;
-```
-
 * Always end a file with a newline.
-* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have >= 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
+* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have more than 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
+* Whitespace should in *all* cases be used to aid readability.
+* Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
+* By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units.
+* One blank line is generally sufficient.
+* Avoid extraneous new lines between nested sets of parenthesis.
+* Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
+* a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
+* blank line after the opening `{` of the method helps give the local variables their own context
+* properties that are *not* `IBOutlet`s are grouped
+* `IBOutlet` properties are grouped by context
 
-**Example**
-``` obj-c
-if (alpha + beta <= 0) && (kappa + phi > 0) {
-}
-```
-
-* Whitespace should in *all* cases be used to aid readability. Readability is highly subjective, so here are some rough guides:
-  * Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
-    * By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units
-  * One blank line is generally sufficient.
-  * Avoid extraneous new lines between nested sets of parenthesis.
-  * Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
-
-**Example**
-```objc
-// blocks are easily readable
-[UIView animateWithDuration:1.0 animations:^{
-    // something
-} completion:^(BOOL finished) {
-    // something
-}];
-```
-
-
-1. all the `signatureViewController`-related lines are together
-2. the new line delimits the end of configuration of `signatureViewController`
-3. the `tapRecognizer` instantiation and configuration is grouped, and not mixed with unrelated code
-4. a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
-
-**Example**
-```objc
-- (void)awakeFromNib {
-    UIStoryboard *signatureStoryboard = [UIStoryboard storyboardWithName:@"BBPopoverSignature" bundle:nil];
-    self.signatureViewController = [signatureStoryboard instantiateViewControllerWithIdentifier:@"BBPopoverSignature"];
-    self.signatureViewController.modalPresentationStyle = UIModalPresentationPopover;
-    self.signatureViewController.preferredContentSize = CGSizeMake(BBPopoverSignatureWidth, BBPopoverSignatureHeight);
-    self.signatureViewController.signatureImageView = self;
-    
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(initiateSignatureCapture)];
-    [self addGestureRecognizer:tapRecognizer];
-}
-```
-
-1. blank line after the opening `{` of the method helps give the local variables their own context
-2. complexity of `attributedString` initialization is more readable with colon aligning
-3. final return value is immediately clear thanks to the blank line above it
-
-**Example**
-```objc
-- (NSAttributedString *)aboutTermsAttributedString {
-
-    NSDictionary *attributes = nil;
-    NSError *error = nil;
-
-    NSURL *fileURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"terms_of_use" ofType:@"html"]];
-    NSAttributedString *attributedString = [[NSAttributedString alloc] initWithFileURL:fileURL 
-                                                                               options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
-                                                                    documentAttributes:&attributes
-                                                                                 error:&error];
-    if (error) {
-        NSLog(@"Error: unable to load about mobile string. %@", [error localizedDescription]);
-        return nil;
-    }
-
-    return attributedString;
-}
-```
-
-1. new line after the `@interface` and before the `@end`
-2. properties that are *not* `IBOutlet`s are grouped
-3. `IBOutlet` properties are grouped by context
-4. the patterns in the grouping aid readability by allowing the eye to see inconsistencies (there are none in this case)
-
-**Example**
+**Example of grouping**
 ```objc
 
 @interface BBProofOfLossViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, BBAutocompletePopoverDateTextFieldDelegate, BBPopoverSignatureImageViewDelegate>
@@ -465,7 +393,6 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *fooLabel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemListHeightConstraint;
 
@@ -484,7 +411,6 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
 @property (weak, nonatomic) IBOutlet UILabel *authorizerNameLabel;
 
 @end
-
 ```
 
 ## Code Organization and Structure
