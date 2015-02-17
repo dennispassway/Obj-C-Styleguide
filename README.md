@@ -1,8 +1,16 @@
 # My Objective-C Bible
-I've started Objective-C development and like to learn from the sources that are available on the interwebs to determine the best style of coding for Objective-C. This is my Objective-C reference and it should be seen as a concatenation of multiple styleguides and tips to use for my own reference and benefits.
+I've started Objective-C development and like to learn from the sources that are available on the interwebs to determine the best style of coding for Objective-C. This is my Objective-C bible and it should be seen as a concatenation of multiple styleguides and tips for my own reference.
+
+# Table of Contents
+* [Styleguide](#styleguide)
+** Floep
+* [Plugins](#plugins)
+** Flap
+* [Links](#links)
+** Flop
 
 # Styleguide
-The styleguide contains a style of coding. This styleguide is assembled by putting together some styleguides that are available on the web.
+This styleguide is assembled by putting together some styleguides that are available on the web.
 
 ## Properties
 
@@ -483,9 +491,6 @@ Gains by prefixing:
 * You are responsible for thoroughly testing your own code before passing off to quality assurance.
 * Your code must always be tested by a minimum of one other person that is not you.
 
-# Tips and tricks
-tipsndtricks description
-
 # Plugins
 There's a few plugins that I consider a must have while developing for iOS with Xcode. They're all available for free!
 
@@ -524,8 +529,10 @@ An amazing plugin to align regular code. It can align anything in any way you wa
 # Links
 Here are some awesome links that are related to iOS development.
 
-## Apple's documentation
-Apple's official coding guidelines
+## Tips and tricks
+* [Developing iOS7 Apps by Standford University](https://itunes.apple.com/us/course/developing-ios-7-apps-for/id733644550)
+
+## Apple's official coding guidelines
 * [The Objective-C Programming Language](http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ObjectiveC/Introduction/introObjectiveC.html)
 * [Cocoa Fundamentals Guide](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CocoaFundamentals/Introduction/Introduction.html)
 * [Coding Guidelines for Cocoa](https://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html)
