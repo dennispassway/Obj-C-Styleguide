@@ -3,6 +3,7 @@ I've started Objective-C development and like to learn from the sources that are
 
 # Table of Contents
 - [Styleguide](#styleguide)
+  - [Basic Code Principles](#basic-code-principles)
   - [Properties](#properties)
     - [Property Attributes](#property-attributes)
     - [Naming of Properties](#naming-of-properties)
@@ -31,14 +32,14 @@ I've started Objective-C development and like to learn from the sources that are
   - [Structure](#structure)
     - [Xcode project](#xcode-project)
     - [Code Organization](#code-organization)
-  - [Error handling](#error-handling)
-  - [Comments](#comments)
-  - [Literals](#literals)
-  - [CGRect Functions](#cgrect-functions)
-  - [Constants](#constants)
-  - [Booleans](#booleans)
-  - [Case Statements](#case-statements)
-  - [Basic Code Principles](#basic-code-principles)
+  - [Others](#others)
+    - [Error handling](#error-handling)
+    - [Comments](#comments)
+    - [Literals](#literals)
+    - [CGRect Functions](#cgrect-functions)
+    - [Constants](#constants)
+    - [Booleans](#booleans)
+    - [Case Statements](#case-statements)
 - [Plugins](#plugins)
 - [Links](#links)
   - [Tips and tricks](#tips-and-tricks)
@@ -46,6 +47,14 @@ I've started Objective-C development and like to learn from the sources that are
 
 # Styleguide
 This styleguide is assembled by putting together some styleguides that are available on the web.
+
+## Basic Code Principles
+* Each function/method should aim to perform one action/task that reflects it's name.
+* Since each function/method performs one action/task each one should be relatively short. If the code does not fit on one screen for example, you know you have a problem!
+* Declare local variables as close to the code they are used in as possible.
+* Always aim to reduce code nesting (ie a statement that is nested in an if, an if, a for and an if is hard for the brain to evaluate. Refactor!).
+* You are responsible for thoroughly testing your own code before passing off to quality assurance.
+* Your code must always be tested by a minimum of one other person that is not you.
 
 ## Properties
 
@@ -418,11 +427,9 @@ Use `#pragma mark -`s to categorize methods in functional groupings and protocol
 
 
 
+## Others
 
-
-
-
-## Error handling
+### Error handling
 When methods return an error parameter by reference, switch on the **returned value**, not the error variable. Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).
 
 **Example**
@@ -433,11 +440,11 @@ if (![self trySomethingWithError:&error]) {
 }
 ```
 
-## Comments
+### Comments
 * When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 * Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. This does not apply to those comments used to generate documentation.
 
-## Literals
+### Literals
 `NSString`, `NSDictionary`, `NSArray`, and `NSNumber` literals should be used whenever creating immutable instances of those objects. Pay special care that `nil` values not be passed into `NSArray` and `NSDictionary` literals, as this will cause a crash.
 
 **Example**
@@ -453,7 +460,7 @@ NSNumber *buildingZIPCode = @10018;
 NSArray *names = [NSArray arrayWithObjects:@"Brian", @"Matt", @"Chris", @"Alex", @"Steve", @"Paul", nil];
 ```
 
-## CGRect Functions
+### CGRect Functions
 When accessing the `x`, `y`, `width`, or `height` of a `CGRect`, always use the `CGGeometry` instead of direct struct member access. 
 From Apple's `CGGeometry` reference:
 
@@ -473,7 +480,7 @@ CGFloat x = frame.origin.x;
 CGFloat width = frame.size.width;
 ```
 
-## Constants
+### Constants
 Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
 
 **Example**
@@ -483,7 +490,7 @@ static NSString * const NYTAboutViewControllerCompanyName = @"The New York Times
 static const CGFloat NYTImageThumbnailHeight = 50.0;
 ```
 
-## Booleans
+### Booleans
 Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits. This allows for more consistency across files and greater visual clarity.
 
 **Example**
@@ -498,7 +505,7 @@ if (![someObject boolValue])
 
 
 
-## Case Statements
+### Case Statements
 Braces are not required for case statements, unless enforced by the complier.  
 When a case contains more than one line, braces should be added.
 
@@ -517,14 +524,6 @@ switch (condition) {
     break;
 }
 ```
-
-## Basic Code Principles
-* Each function/method should aim to perform one action/task that reflects it's name.
-* Since each function/method performs one action/task each one should be relatively short. If the code does not fit on one screen for example, you know you have a problem!
-* Declare local variables as close to the code they are used in as possible.
-* Always aim to reduce code nesting (ie a statement that is nested in an if, an if, a for and an if is hard for the brain to evaluate. Refactor!).
-* You are responsible for thoroughly testing your own code before passing off to quality assurance.
-* Your code must always be tested by a minimum of one other person that is not you.
 
 # Plugins
 There's a few plugins that I consider a must have while developing for iOS with Xcode. They're all available for free!
