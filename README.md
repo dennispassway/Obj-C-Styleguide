@@ -12,31 +12,31 @@ I've started Objective-C development and like to learn from the sources that are
     - [Magic Numbers](#magic-numbers)
   - [Methods](#methods)
     - [Getters](#getters)
+  - [init and dealloc](#init-and-dealloc)
+  - [Class Constructor Methods](#class-constructor-methods)
   - [Code style](#code-style)
     - [Language](#language)
     - [Naming](#naming)
+    - [Image Naming](#image-naming)
     - [Spacing](#spacing)
+  - [Whitespace](#whitespace)
+    - [Imports](#imports)
+    - [Interface and implementation](#interface-and-implementation)
+  - [Classes](#classes)
+  - [Prefixes](#prefixes)
   - [Structure](#structure)
       - [Golden Path](#golden-path)
   - [Ternary Operator](#ternary-operator)
   - [Error handling](#error-handling)
   - [Comments](#comments)
-  - [init and dealloc](#init-and-dealloc)
   - [Literals](#literals)
   - [CGRect Functions](#cgrect-functions)
   - [Constants](#constants)
-  - [Image Naming](#image-naming)
   - [Booleans](#booleans)
   - [Xcode project](#xcode-project)
   - [Case Statements](#case-statements)
-  - [Class Constructor Methods](#class-constructor-methods)
-  - [Whitespace](#whitespace)
-    - [Imports](#imports)
-    - [Interface and implementation](#interface-and-implementation)
-    - [Math Operators](#math-operators)
+  - [Math Operators](#math-operators)
   - [Code Organization and Structure](#code-organization-and-structure)
-  - [Classes](#classes)
-  - [Prefixes](#prefixes)
   - [Basic Code Principles](#basic-code-principles)
 - [Plugins](#plugins)
 - [Links](#links)
@@ -143,6 +143,32 @@ If the method returns an attribute of the receiver, name the method after the at
 - (NSInteger)age
 ```
 
+## init and dealloc
+`dealloc` methods should be placed at the top of the implementation, directly after the `@synthesize` and `@dynamic` statements.
+`init` should be placed directly below the `dealloc` methods of any class.
+
+**Example of an `init` method**
+```objc
+- (instancetype)init {
+    self = [super init]; // or call the designated initializer
+    if (self) {
+        // Custom initialization
+    }
+
+    return self;
+}
+```
+
+## Class Constructor Methods
+Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type. 
+
+**Example**
+```objc
+@interface Airplane
++ (instancetype)airplaneWithType:(RWTAirplaneType)type;
+@end
+```
+
 
 
 
@@ -179,6 +205,15 @@ static NSTimeInterval const RWTTutorialViewControllerNavigationFadeAnimationDura
 static NSTimeInterval const fadetime = 1.7;
 ```
 
+### Image Naming
+Image names should be named consistently to preserve organization and developer sanity. They should be named as one camel case string with a description of their purpose, followed by the un-prefixed name of the class or property they are customizing (if there is one), followed by a further description of color and/or placement, and finally their state.
+
+Images that are used for a similar purpose should be grouped in respective groups in an Images folder.
+
+**Examples**
+* `RefreshBarButtonItem` / `RefreshBarButtonItem@2x` and `RefreshBarButtonItemSelected` / `RefreshBarButtonItemSelected@2x`
+* `ArticleNavigationBarWhite` / `ArticleNavigationBarWhite@2x` and `ArticleNavigationBarBlackSelected` / `ArticleNavigationBarBlackSelected@2x`.
+
 ### Spacing
 * Indent using 4 spaces. Never indent with tabs. **Be sure to set this preference in Xcode.**
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but closes on a new line.
@@ -195,6 +230,59 @@ else {
   //Do something else
 }
 ```
+
+## Whitespace
+
+### Imports
+Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
+
+**Example**
+``` obj-c
+#import <AwesomeFramework/AwesomeFramework.h>
+#import <AnotherFramework/AnotherFramework.h>
+
+#import "SomeDependency.h"
+#import "SomeOtherDependency.h"
+
+@interface MyClass
+```
+
+### Interface and implementation
+Use one empty line between class extension and implementation in .m file.
+
+**Example**
+``` obj-c
+@interface MyClass ()
+
+// Properties - empty line above and below
+
+@end
+
+@implementation MyClass
+
+// Body - empty line above and below
+
+@end
+
+```
+
+## Classes
+Class names use upper camel case. In general there should be one class per .h/.m file.
+
+## Prefixes
+Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `OBCObjectSerialization`. Class name prefixes can be used to:
+
+* filter visible files in the project navigator in Xcode
+* allow you to ignore search results in files without your desired prefix
+* convey the ancestry of the class (as sometimes classes have been reused between projects)
+* distinguish between components of the app
+
+Gains by prefixing:
+
+* Shared code should be definitely be prefixed (e.g. in RoboKit).
+* Class name prefixes may be avoided for CoreData entity names. 
+* Avoid using overly simple names like "Model" "View" or "Object".  
+* When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
 
 
 
@@ -252,22 +340,6 @@ if (![self trySomethingWithError:&error]) {
 * When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
 * Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. This does not apply to those comments used to generate documentation.
 
-## init and dealloc
-`dealloc` methods should be placed at the top of the implementation, directly after the `@synthesize` and `@dynamic` statements.
-`init` should be placed directly below the `dealloc` methods of any class.
-
-**Example of an `init` method**
-```objc
-- (instancetype)init {
-    self = [super init]; // or call the designated initializer
-    if (self) {
-        // Custom initialization
-    }
-
-    return self;
-}
-```
-
 ## Literals
 `NSString`, `NSDictionary`, `NSArray`, and `NSNumber` literals should be used whenever creating immutable instances of those objects. Pay special care that `nil` values not be passed into `NSArray` and `NSDictionary` literals, as this will cause a crash.
 
@@ -314,15 +386,6 @@ static NSString * const NYTAboutViewControllerCompanyName = @"The New York Times
 static const CGFloat NYTImageThumbnailHeight = 50.0;
 ```
 
-## Image Naming
-Image names should be named consistently to preserve organization and developer sanity. They should be named as one camel case string with a description of their purpose, followed by the un-prefixed name of the class or property they are customizing (if there is one), followed by a further description of color and/or placement, and finally their state.
-
-Images that are used for a similar purpose should be grouped in respective groups in an Images folder.
-
-**Examples**
-* `RefreshBarButtonItem` / `RefreshBarButtonItem@2x` and `RefreshBarButtonItemSelected` / `RefreshBarButtonItemSelected@2x`
-* `ArticleNavigationBarWhite` / `ArticleNavigationBarWhite@2x` and `ArticleNavigationBarBlackSelected` / `ArticleNavigationBarBlackSelected@2x`.
-
 ## Booleans
 Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits. This allows for more consistency across files and greater visual clarity.
 
@@ -361,54 +424,7 @@ switch (condition) {
 }
 ```
 
-## Class Constructor Methods
-Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type. 
-
-**Example**
-```objc
-@interface Airplane
-+ (instancetype)airplaneWithType:(RWTAirplaneType)type;
-@end
-```
-
-
-
-## Whitespace
-
-### Imports
-Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
-
-**Example**
-``` obj-c
-#import <AwesomeFramework/AwesomeFramework.h>
-#import <AnotherFramework/AnotherFramework.h>
-
-#import "SomeDependency.h"
-#import "SomeOtherDependency.h"
-
-@interface MyClass
-```
-
-### Interface and implementation
-Use one empty line between class extension and implementation in .m file.
-
-**Example**
-``` obj-c
-@interface MyClass ()
-
-// Properties - empty line above and below
-
-@end
-
-@implementation MyClass
-
-// Body - empty line above and below
-
-@end
-
-```
-
-### Math Operators
+## Math Operators
 When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
 
 * When doing logic, a single space should follow the `if` and a single space should preceed the `{`
@@ -498,24 +514,6 @@ Use `#pragma mark -`s to categorize methods in functional groupings and protocol
 
 - (NSString *)description {}
 ```
-
-## Classes
-Class names use upper camel case. In general there should be one class per .h/.m file.
-
-## Prefixes
-Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `OBCObjectSerialization`. Class name prefixes can be used to:
-
-* filter visible files in the project navigator in Xcode
-* allow you to ignore search results in files without your desired prefix
-* convey the ancestry of the class (as sometimes classes have been reused between projects)
-* distinguish between components of the app
-
-Gains by prefixing:
-
-* Shared code should be definitely be prefixed (e.g. in RoboKit).
-* Class name prefixes may be avoided for CoreData entity names. 
-* Avoid using overly simple names like "Model" "View" or "Object".  
-* When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
 
 ## Basic Code Principles
 * Each function/method should aim to perform one action/task that reflects it's name.
