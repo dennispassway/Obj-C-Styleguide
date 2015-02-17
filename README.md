@@ -12,31 +12,32 @@ I've started Objective-C development and like to learn from the sources that are
     - [Magic Numbers](#magic-numbers)
   - [Methods](#methods)
     - [Getters](#getters)
-  - [init and dealloc](#init-and-dealloc)
-  - [Class Constructor Methods](#class-constructor-methods)
+    - [init and dealloc](#init-and-dealloc)
+    - [Class Constructor Methods](#class-constructor-methods)
   - [Code style](#code-style)
     - [Language](#language)
     - [Naming](#naming)
     - [Image Naming](#image-naming)
     - [Spacing](#spacing)
-  - [Whitespace](#whitespace)
-    - [Imports](#imports)
-    - [Interface and implementation](#interface-and-implementation)
-  - [Classes](#classes)
-  - [Prefixes](#prefixes)
+    - [Whitespace](#whitespace)
+      - [Imports](#imports)
+      - [Interface and implementation](#interface-and-implementation)
+    - [Classes](#classes)
+    - [Prefixes](#prefixes)
+  - [Statements and operators](#statements-and-operators)
+    - [Golden Path](#golden-path)
+    - [Ternary Operator](#ternary-operator)
+    - [Math Operators](#math-operators)
   - [Structure](#structure)
-      - [Golden Path](#golden-path)
-  - [Ternary Operator](#ternary-operator)
+    - [Xcode project](#xcode-project)
+    - [Code Organization](#code-organization)
   - [Error handling](#error-handling)
   - [Comments](#comments)
   - [Literals](#literals)
   - [CGRect Functions](#cgrect-functions)
   - [Constants](#constants)
   - [Booleans](#booleans)
-  - [Xcode project](#xcode-project)
   - [Case Statements](#case-statements)
-  - [Math Operators](#math-operators)
-  - [Code Organization and Structure](#code-organization-and-structure)
   - [Basic Code Principles](#basic-code-principles)
 - [Plugins](#plugins)
 - [Links](#links)
@@ -143,7 +144,7 @@ If the method returns an attribute of the receiver, name the method after the at
 - (NSInteger)age
 ```
 
-## init and dealloc
+### init and dealloc
 `dealloc` methods should be placed at the top of the implementation, directly after the `@synthesize` and `@dynamic` statements.
 `init` should be placed directly below the `dealloc` methods of any class.
 
@@ -159,7 +160,7 @@ If the method returns an attribute of the receiver, name the method after the at
 }
 ```
 
-## Class Constructor Methods
+### Class Constructor Methods
 Where class constructor methods are used, these should always return type of 'instancetype' and never 'id'. This ensures the compiler correctly infers the result type. 
 
 **Example**
@@ -231,9 +232,9 @@ else {
 }
 ```
 
-## Whitespace
+### Whitespace
 
-### Imports
+#### Imports
 Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
 
 **Example**
@@ -247,7 +248,7 @@ Separate imports from the rest of your file by 1 space. Optionally group imports
 @interface MyClass
 ```
 
-### Interface and implementation
+#### Interface and implementation
 Use one empty line between class extension and implementation in .m file.
 
 **Example**
@@ -266,10 +267,10 @@ Use one empty line between class extension and implementation in .m file.
 
 ```
 
-## Classes
+### Classes
 Class names use upper camel case. In general there should be one class per .h/.m file.
 
-## Prefixes
+### Prefixes
 Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `OBCObjectSerialization`. Class name prefixes can be used to:
 
 * filter visible files in the project navigator in Xcode
@@ -286,20 +287,11 @@ Gains by prefixing:
 
 
 
-## Structure
 
 
+## Statements and operators
 
-
-
-
-
-
-
-
-
-
-#### Golden Path
+### Golden Path
 When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
 
 **Example**
@@ -313,17 +305,122 @@ When coding with conditionals, the left hand margin of the code should be the "g
 }
 ```
 
-
-
-
-
-## Ternary Operator
+### Ternary Operator
 The Ternary operator, ? , should only be used when it increases clarity or code neatness. A single condition is usually all that should be used, multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
 
 **Example**
 ```objc
 result = a > b ? x : y;
 ```
+
+### Math Operators
+When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
+
+* When doing logic, a single space should follow the `if` and a single space should preceed the `{`
+* Always end a file with a newline.
+* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have more than 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
+* Whitespace should in *all* cases be used to aid readability.
+* Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
+* By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units.
+* One blank line is generally sufficient.
+* Avoid extraneous new lines between nested sets of parenthesis.
+* Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
+* a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
+* blank line after the opening `{` of the method helps give the local variables their own context
+* properties that are *not* `IBOutlet`s are grouped
+* `IBOutlet` properties are grouped by context
+
+**Example of grouping**
+```objc
+
+@interface BBProofOfLossViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, BBAutocompletePopoverDateTextFieldDelegate, BBPopoverSignatureImageViewDelegate>
+
+@property (strong, nonatomic) NSArray *targetItems;
+@property (strong, nonatomic) BBCustomForm *customForm;
+
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemListHeightConstraint;
+
+@property (weak, nonatomic) IBOutlet BBAutocompletePopoverDateTextField *formDatePopoverTextField;
+
+@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *witnessSignatureImageView;
+@property (weak, nonatomic) IBOutlet UITextField *witnessSignatureBackgroundTextField;
+@property (weak, nonatomic) IBOutlet UILabel *witnessNameLabel;
+
+@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *submitterSignatureImageView;
+@property (weak, nonatomic) IBOutlet UITextField *submitterSignatureBackgroundTextField;
+@property (weak, nonatomic) IBOutlet UILabel *submitterNameLabel;
+
+@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *authorizerSignatureImageView;
+@property (weak, nonatomic) IBOutlet UITextField *authorizerSignatureBackgroundTextField;
+@property (weak, nonatomic) IBOutlet UILabel *authorizerNameLabel;
+
+@end
+```
+
+
+
+
+
+
+
+
+## Structure
+
+### Xcode project
+The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
+
+### Code Organization
+Use `#pragma mark -`s to categorize methods in functional groupings and protocol/delegate implementations following this general structure. When using pragma marks leave 1 newline before and after.
+
+**Example**
+```objc
+#pragma mark - Lifecycle
+
++ (instancetype)objectWithThing:(id)thing {}
+- (instancetype)init {}
+- (void)dealloc {}
+- (void)viewDidLoad {}
+- (void)didReceiveMemoryWarning {}
+
+#pragma mark - Custom Accessors
+
+- (void)setCustomProperty:(id)property {}
+- (id)anotherCustomProperty {}
+
+#pragma mark - Actions
+
+- (IBAction)submitData:(id)sender {}
+
+#pragma mark - Public
+
+- (void)publicMethod {}
+
+#pragma mark - Private
+
+- (void)privateMethod {}
+
+#pragma mark - Protocol conformance
+#pragma mark - UITextFieldDelegate
+#pragma mark - UITableViewDataSource
+#pragma mark - UITableViewDelegate
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {}
+
+#pragma mark - NSObject
+
+- (NSString *)description {}
+```
+
+
+
+
+
+
 
 ## Error handling
 When methods return an error parameter by reference, switch on the **returned value**, not the error variable. Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).
@@ -399,9 +496,6 @@ if (!someObject) {
 if (![someObject boolValue])
 ```
 
-## Xcode project
-The physical files should be kept in sync with the Xcode project files in order to avoid file sprawl. Any Xcode groups created should be reflected by folders in the filesystem. Code should be grouped not only by type, but also by feature for greater clarity.
-
 
 
 ## Case Statements
@@ -422,97 +516,6 @@ switch (condition) {
     // ...
     break;
 }
-```
-
-## Math Operators
-When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
-
-* When doing logic, a single space should follow the `if` and a single space should preceed the `{`
-* Always end a file with a newline.
-* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have more than 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
-* Whitespace should in *all* cases be used to aid readability.
-* Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
-* By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units.
-* One blank line is generally sufficient.
-* Avoid extraneous new lines between nested sets of parenthesis.
-* Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
-* a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
-* blank line after the opening `{` of the method helps give the local variables their own context
-* properties that are *not* `IBOutlet`s are grouped
-* `IBOutlet` properties are grouped by context
-
-**Example of grouping**
-```objc
-
-@interface BBProofOfLossViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, BBAutocompletePopoverDateTextFieldDelegate, BBPopoverSignatureImageViewDelegate>
-
-@property (strong, nonatomic) NSArray *targetItems;
-@property (strong, nonatomic) BBCustomForm *customForm;
-
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemListHeightConstraint;
-
-@property (weak, nonatomic) IBOutlet BBAutocompletePopoverDateTextField *formDatePopoverTextField;
-
-@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *witnessSignatureImageView;
-@property (weak, nonatomic) IBOutlet UITextField *witnessSignatureBackgroundTextField;
-@property (weak, nonatomic) IBOutlet UILabel *witnessNameLabel;
-
-@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *submitterSignatureImageView;
-@property (weak, nonatomic) IBOutlet UITextField *submitterSignatureBackgroundTextField;
-@property (weak, nonatomic) IBOutlet UILabel *submitterNameLabel;
-
-@property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *authorizerSignatureImageView;
-@property (weak, nonatomic) IBOutlet UITextField *authorizerSignatureBackgroundTextField;
-@property (weak, nonatomic) IBOutlet UILabel *authorizerNameLabel;
-
-@end
-```
-
-## Code Organization and Structure
-Use `#pragma mark -`s to categorize methods in functional groupings and protocol/delegate implementations following this general structure. When using pragma marks leave 1 newline before and after.
-
-**Example**
-```objc
-#pragma mark - Lifecycle
-
-+ (instancetype)objectWithThing:(id)thing {}
-- (instancetype)init {}
-- (void)dealloc {}
-- (void)viewDidLoad {}
-- (void)didReceiveMemoryWarning {}
-
-#pragma mark - Custom Accessors
-
-- (void)setCustomProperty:(id)property {}
-- (id)anotherCustomProperty {}
-
-#pragma mark - Actions
-
-- (IBAction)submitData:(id)sender {}
-
-#pragma mark - Public
-
-- (void)publicMethod {}
-
-#pragma mark - Private
-
-- (void)privateMethod {}
-
-#pragma mark - Protocol conformance
-#pragma mark - UITextFieldDelegate
-#pragma mark - UITableViewDataSource
-#pragma mark - UITableViewDelegate
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {}
-
-#pragma mark - NSObject
-
-- (NSString *)description {}
 ```
 
 ## Basic Code Principles
