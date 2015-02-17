@@ -2,12 +2,46 @@
 I've started Objective-C development and like to learn from the sources that are available on the interwebs to determine the best style of coding for Objective-C. This is my Objective-C bible and it should be seen as a concatenation of multiple styleguides and tips for my own reference.
 
 # Table of Contents
-* [Styleguide](#styleguide)
-** Floep
-* [Plugins](#plugins)
-** Flap
-* [Links](#links)
-** Flop
+- [Styleguide](#styleguide)
+  - [Properties](#properties)
+    - [Property Attributes](#property-attributes)
+    - [Naming of Properties](#naming-of-properties)
+    - [Dot-Notation Syntax](#dot-notation-syntax)
+    - [Private Properties](#private-properties)
+    - [Qualifiers](#qualifiers)
+    - [Magic Numbers](#magic-numbers)
+  - [Methods](#methods)
+    - [Getters](#getters)
+  - [Code style](#code-style)
+    - [Language](#language)
+    - [Naming](#naming)
+    - [Spacing](#spacing)
+  - [Structure](#structure)
+      - [Golden Path](#golden-path)
+  - [Ternary Operator](#ternary-operator)
+  - [Error handling](#error-handling)
+  - [Comments](#comments)
+  - [init and dealloc](#init-and-dealloc)
+  - [Literals](#literals)
+  - [CGRect Functions](#cgrect-functions)
+  - [Constants](#constants)
+  - [Image Naming](#image-naming)
+  - [Booleans](#booleans)
+  - [Xcode project](#xcode-project)
+  - [Case Statements](#case-statements)
+  - [Class Constructor Methods](#class-constructor-methods)
+  - [Whitespace](#whitespace)
+    - [Imports](#imports)
+    - [Interface and implementation](#interface-and-implementation)
+    - [Math Operators](#math-operators)
+  - [Code Organization and Structure](#code-organization-and-structure)
+  - [Classes](#classes)
+  - [Prefixes](#prefixes)
+  - [Basic Code Principles](#basic-code-principles)
+- [Plugins](#plugins)
+- [Links](#links)
+  - [Tips and tricks](#tips-and-tricks)
+  - [Apple's official coding guidelines](#apples-official-coding-guidelines)
 
 # Styleguide
 This styleguide is assembled by putting together some styleguides that are available on the web.
