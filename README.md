@@ -365,24 +365,11 @@ Use one empty line between class extension and implementation in .m file.
 @end
 
 ```
-### Pragma mark
-When using pragma marks leave 1 newline before and after.
-
-**Example**
-``` obj-c
-- (CGSize)intrinsicContentSize {
-    return CGSizeMake(12, 12);
-}
-
-#pragma mark - Private
-
-- (void)setup {
-    [self addGestureRecognizer:[[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(clicked:)]];
-}
-```
 
 ### Math Operators
 When doing math use a single space between operators. Unless that operator is unary in which case don't use a space.
+
+* When doing logic, a single space should follow the `if` and a single space should preceed the `{`
 
 **Example**
 ```obj-c
@@ -392,7 +379,8 @@ index += 1;
 index--;
 ```
 
-* When doing logic, a single space should follow the `if` and a single space should preceed the `{`
+* Always end a file with a newline.
+* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have >= 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
 
 **Example**
 ``` obj-c
@@ -400,8 +388,12 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
 }
 ```
 
-* Always end a file with a newline.
-* Colon-aligning method invocation should often be avoided.  There are cases where a method signature may have >= 3 colons and colon-aligning makes the code more readable. Please do **NOT** however colon align methods containing blocks because Xcode's indenting makes it illegible.
+* Whitespace should in *all* cases be used to aid readability. Readability is highly subjective, so here are some rough guides:
+  * Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
+    * By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units
+  * One blank line is generally sufficient.
+  * Avoid extraneous new lines between nested sets of parenthesis.
+  * Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
 
 **Example**
 ```objc
@@ -413,12 +405,11 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
 }];
 ```
 
-* Whitespace should in *all* cases be used to aid readability. Readability is highly subjective, so here are some rough guides:
-  * Use new lines to delimit chunks of related code (approx 4-5 lines). If more than 4-5 lines are grouped, consider refactoring those lines into another method. 
-    * By grouping related lines of code it naturally starts to show where the method can be refactored into smaller reusable units
-  * One blank line is generally sufficient.
-  * Avoid extraneous new lines between nested sets of parenthesis.
-  * Avoid blank lines at the end of methods. (Consider delimiting the final return value with one though.)
+
+1. all the `signatureViewController`-related lines are together
+2. the new line delimits the end of configuration of `signatureViewController`
+3. the `tapRecognizer` instantiation and configuration is grouped, and not mixed with unrelated code
+4. a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
 
 **Example**
 ```objc
@@ -433,12 +424,10 @@ if (alpha + beta <= 0) && (kappa + phi > 0) {
     [self addGestureRecognizer:tapRecognizer];
 }
 ```
-Note:
 
-1. all the `signatureViewController`-related lines are together
-2. the new line delimits the end of configuration of `signatureViewController`
-3. the `tapRecognizer` instantiation and configuration is grouped, and not mixed with unrelated code
-4. a new line after the opening `{` and a new line before the closing `}` are permissible. In some cases they aid readability and in others they yield an overabundance of whitespace.
+1. blank line after the opening `{` of the method helps give the local variables their own context
+2. complexity of `attributedString` initialization is more readable with colon aligning
+3. final return value is immediately clear thanks to the blank line above it
 
 **Example**
 ```objc
@@ -460,11 +449,11 @@ Note:
     return attributedString;
 }
 ```
-Note:
 
-1. blank line after the opening `{` of the method helps give the local variables their own context
-2. complexity of `attributedString` initialization is more readable with colon aligning
-3. final return value is immediately clear thanks to the blank line above it
+1. new line after the `@interface` and before the `@end`
+2. properties that are *not* `IBOutlet`s are grouped
+3. `IBOutlet` properties are grouped by context
+4. the patterns in the grouping aid readability by allowing the eye to see inconsistencies (there are none in this case)
 
 **Example**
 ```objc
@@ -477,12 +466,6 @@ Note:
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fooLabel;
-@property (weak, nonatomic) IBOutlet UILabel *barLabel;
-@property (weak, nonatomic) IBOutlet UILabel *instanceNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *relatedNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *bazLabel;
-@property (weak, nonatomic) IBOutlet UILabel *typeOfInstanceLabel;
-@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *itemListHeightConstraint;
 
@@ -491,91 +474,21 @@ Note:
 @property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *witnessSignatureImageView;
 @property (weak, nonatomic) IBOutlet UITextField *witnessSignatureBackgroundTextField;
 @property (weak, nonatomic) IBOutlet UILabel *witnessNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *witnessLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *witnessDateLabel;
 
 @property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *submitterSignatureImageView;
 @property (weak, nonatomic) IBOutlet UITextField *submitterSignatureBackgroundTextField;
 @property (weak, nonatomic) IBOutlet UILabel *submitterNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *submitterLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *submitterDateLabel;
 
 @property (weak, nonatomic) IBOutlet BBPopoverSignatureImageView *authorizerSignatureImageView;
 @property (weak, nonatomic) IBOutlet UITextField *authorizerSignatureBackgroundTextField;
 @property (weak, nonatomic) IBOutlet UILabel *authorizerNameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *authorizerLocationLabel;
-@property (weak, nonatomic) IBOutlet UILabel *authorizerDateLabel;
 
 @end
 
 ```
-Note:
 
-1. new line after the `@interface` and before the `@end`
-2. properties that are *not* `IBOutlet`s are grouped
-3. `IBOutlet` properties are grouped by context
-4. the patterns in the grouping aid readability by allowing the eye to see inconsistencies (there are none in this case)
-
-**Example**
-```objc
-
-// DEV_BUILD/STAGE_BUILD/PROD_BUILD are configured in Project Build Settings Preprocessor Macros
-#if DEV_BUILD
-static NSString * const BBAPIBaseURLString = @"https://dev.example.com/v1/quux/~?format=json"; // dev
-
-#elif QA_BUILD 
-static NSString * const BBAPIBaseURLString = @"https://qa.example.com/v1/quux/~?format=json"; // qa
-
-#elif STAGE_BUILD
-static NSString * const BBAPIBaseURLString = @"https://stage.example.com/v1/quux/~?format=json"; // stage
-
-#elif PROD_BUILD
-static NSString * const BBAPIBaseURLString = @"https://api.example.com/v1/quux/~?format=json"; // prod
-
-#else
-static NSString * const BBAPIBaseURLString = @"https://api.example.com/v1/quux/~?format=json"; // prod
-
-#endif
-
-- (void)viewController:(BBViewController *)viewController finishedWithAuth:(BBAuthentication *)auth error:(NSError *)error {
-
-    //pushViewController didn't work, use ugly full screen view
-    [viewController dismissViewControllerAnimated:YES completion:nil];
-
-    if (error) {
-        NSLog(@"Authentication failed %@", [error localizedDescription]);
-
-        // TODO: call our own completion block with this error?
-
-       return;
-    }
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:BBAPIBaseURLString]]; // mutable in case we need to adjust the request headers
-    [auth authorizeRequest:request completionHandler:^(NSError *error) {
-        
-        // we should probably be checking the supplied error to decided if we need to do this operation or not
-        
-        AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-        operation.responseSerializer = [AFJSONResponseSerializer serializer];
-        [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSDictionary *responseData = (NSDictionary *)responseObject;
-            
-            // TODO: Handle our response data. Call our own completion block?
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error.localizedDescription);
-            
-            // TODO: call our own completion block when we have an error?
-        }];
-        
-        [operation start];
-    }];
-}
-```
-Note: This method is obviously incomplete and may not, *architecturally* be optimal, however it can be still styled in a readable manner.
-
-## Code Organization
-* use `#pragma mark -`s to categorize methods in functional groupings and protocol/delegate implementations following this general structure.
+## Code Organization and Structure
+Use `#pragma mark -`s to categorize methods in functional groupings and protocol/delegate implementations following this general structure. When using pragma marks leave 1 newline before and after.
 
 **Example**
 ```objc
@@ -618,46 +531,31 @@ Note: This method is obviously incomplete and may not, *architecturally* be opti
 - (NSString *)description {}
 ```
 
-
-
 ## Classes
-Class names use upper camel case, ie First word capitalized, start of new words capitalized as well.  In general there should be one class per .h/.m file.
+Class names use upper camel case. In general there should be one class per .h/.m file.
 
-**Example**
-```objc
-SVSSpy
-SVSWhiteSpy
-SVSBlackSpy
-SVSCar
-SVSCarEngine
-```
-
-## Namespace prefixes
-Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `RBKObjectSerialization`. Class name prefixes can be used to:
+## Prefixes
+Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `OBCObjectSerialization`. Class name prefixes can be used to:
 
 * filter visible files in the project navigator in Xcode
 * allow you to ignore search results in files without your desired prefix
 * convey the ancestry of the class (as sometimes classes have been reused between projects)
 * distinguish between components of the app
 
-Shared code should be definitely be prefixed (e.g. in RoboKit).
+Gains by prefixing:
 
-Class name prefixes may be avoided for CoreData entity names. 
-
-Avoid using overly simple names like "Model" "View" or "Object".  
-
-When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
+* Shared code should be definitely be prefixed (e.g. in RoboKit).
+* Class name prefixes may be avoided for CoreData entity names. 
+* Avoid using overly simple names like "Model" "View" or "Object".  
+* When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
 
 ## Basic Code Principles
 * Each function/method should aim to perform one action/task that reflects it's name.
 * Since each function/method performs one action/task each one should be relatively short. If the code does not fit on one screen for example, you know you have a problem!
 * Declare local variables as close to the code they are used in as possible.
-* Always aim to reduce code nesting (ie a statement that is nested in an if, an if, a for and an if is hard for the brain to evaluate.  Refactor!).
-
-## Testing
+* Always aim to reduce code nesting (ie a statement that is nested in an if, an if, a for and an if is hard for the brain to evaluate. Refactor!).
 * You are responsible for thoroughly testing your own code before passing off to quality assurance.
 * Your code must always be tested by a minimum of one other person that is not you.
-* Automated tests should always be added to at least critical code sections at a minimum (ex. algorithm to calculate mortgage details for a bank).
 
 # Tips and tricks
 tipsndtricks description
