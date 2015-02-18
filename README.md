@@ -9,9 +9,9 @@ I've started Objective-C development and like to learn from the sources that are
     - [Naming of Properties](#naming-of-properties)
     - [Dot-Notation Syntax](#dot-notation-syntax)
     - [Private Properties](#private-properties)
-    - [Qualifiers](#qualifiers)
-    - [Magic Numbers](#magic-numbers)
+    - [Property Qualifiers](#property-qualifiers)
   - [Methods](#methods)
+    - [Method naming](#method-naming)
     - [Getters](#getters)
     - [init and dealloc](#init-and-dealloc)
     - [Class Constructor Methods](#class-constructor-methods)
@@ -19,27 +19,27 @@ I've started Objective-C development and like to learn from the sources that are
     - [Language](#language)
     - [Naming](#naming)
     - [Image Naming](#image-naming)
-    - [Spacing](#spacing)
     - [Whitespace](#whitespace)
+      - [Spacing](#spacing)
       - [Imports](#imports)
       - [Interface and implementation](#interface-and-implementation)
-    - [Classes](#classes)
     - [Prefixes](#prefixes)
-  - [Statements and operators](#statements-and-operators)
-    - [Golden Path](#golden-path)
+  - [Operators](#operators)
     - [Ternary Operator](#ternary-operator)
     - [Math Operators](#math-operators)
   - [Structure](#structure)
     - [Xcode project](#xcode-project)
     - [Code Organization](#code-organization)
   - [Others](#others)
-    - [Error handling](#error-handling)
     - [Comments](#comments)
+    - [Magic Numbers](#magic-numbers)
+    - [Error handling](#error-handling)
     - [Literals](#literals)
-    - [CGRect Functions](#cgrect-functions)
     - [Constants](#constants)
-    - [Booleans](#booleans)
     - [Case Statements](#case-statements)
+    - [Golden Path](#golden-path)
+    - [Booleans](#booleans)
+    - [CGRect Functions](#cgrect-functions)
 - [Plugins](#plugins)
 - [Links](#links)
   - [Tips and tricks](#tips-and-tricks)
@@ -114,23 +114,14 @@ Private properties should be declared in class extensions (anonymous categories)
 @end
 ```
 
-### Qualifiers
+### Property Qualifiers
 When it comes to the variable qualifiers, the qualifier (`__strong`, `__weak`, `__unsafe_unretained`, `__autoreleasing`) should be placed between the asterisks and the variable name, e.g., `NSString * __weak text`.
-
-### Magic Numbers
-Avoid magic numbers with no meaning, preferring instead a named variable or constant (see following examples).
-
-**Good**
-```objc
-if ([pin length] > RBKPinSizeMax)
-
-// Wrong
-if ([pin length] < 5)
-```
 
 What is the second example checking for? We can see that the first example is checking if the pin is longer than the max allowed.
 
 ## Methods
+
+### Method naming
 In method signatures, there should be a space after the method type (-/+ symbol). There should be a space between the method segments (matching Apple's style).  Always include a keyword and be descriptive with the word before the argument which describes the argument. The usage of the word "and" is reserved.  It should not be used for multiple parameters as illustrated in the `initWithWidth:height:` example below.
 
 The method signatures uses lower camel case and start with an action. Also, be descriptive: make the word before the argument describe the argument.
@@ -179,11 +170,6 @@ Where class constructor methods are used, these should always return type of 'in
 @end
 ```
 
-
-
-
-
-
 ## Code style
 
 ### Language
@@ -199,7 +185,7 @@ UIColor *myColour = [UIColor grayColor];
 ```
 
 ### Naming
-Long, descriptive method and variable names are good.
+Long, descriptive method and variable names are good. Class names use upper camel case. In general there should be one class per .h/.m file.
 
 **Examples**
 ```objc
@@ -224,7 +210,9 @@ Images that are used for a similar purpose should be grouped in respective group
 * `RefreshBarButtonItem` / `RefreshBarButtonItem@2x` and `RefreshBarButtonItemSelected` / `RefreshBarButtonItemSelected@2x`
 * `ArticleNavigationBarWhite` / `ArticleNavigationBarWhite@2x` and `ArticleNavigationBarBlackSelected` / `ArticleNavigationBarBlackSelected@2x`.
 
-### Spacing
+### Whitespace
+
+#### Spacing
 * Indent using 4 spaces. Never indent with tabs. **Be sure to set this preference in Xcode.**
 * Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the same line as the statement but closes on a new line.
 * There should be exactly one blank line between methods to aid in visual clarity and organization.
@@ -240,8 +228,6 @@ else {
   //Do something else
 }
 ```
-
-### Whitespace
 
 #### Imports
 Separate imports from the rest of your file by 1 space. Optionally group imports if there are many (but try to have less dependencies). Generally strive to include frameworks first.
@@ -273,11 +259,7 @@ Use one empty line between class extension and implementation in .m file.
 // Body - empty line above and below
 
 @end
-
 ```
-
-### Classes
-Class names use upper camel case. In general there should be one class per .h/.m file.
 
 ### Prefixes
 Descriptive names should generally avoid conflicts, however there are tangible benefits to using three character class name prefixes e.g. `OBCObjectSerialization`. Class name prefixes can be used to:
@@ -294,25 +276,7 @@ Gains by prefixing:
 * Avoid using overly simple names like "Model" "View" or "Object".  
 * When you don't prefix and you have a namespace collision they're megahard to debug and unravel.
 
-
-
-
-
-## Statements and operators
-
-### Golden Path
-When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
-
-**Example**
-```objc
-- (void)someMethod {
-  if (![someOther boolValue]) {
-  return;
-  }
-
-  //Do something important
-}
-```
+## Operators
 
 ### Ternary Operator
 The Ternary operator, ? , should only be used when it increases clarity or code neatness. A single condition is usually all that should be used, multiple conditions is usually more understandable as an if statement, or refactored into instance variables.
@@ -369,13 +333,6 @@ When doing math use a single space between operators. Unless that operator is un
 @end
 ```
 
-
-
-
-
-
-
-
 ## Structure
 
 ### Xcode project
@@ -425,9 +382,22 @@ Use `#pragma mark -`s to categorize methods in functional groupings and protocol
 - (NSString *)description {}
 ```
 
-
-
 ## Others
+
+### Comments
+* When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
+* Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. This does not apply to those comments used to generate documentation.
+
+### Magic Numbers
+Avoid magic numbers with no meaning, preferring instead a named variable or constant (see following examples).
+
+**Good**
+```objc
+if ([pin length] > RBKPinSizeMax)
+
+// Wrong
+if ([pin length] < 5)
+```
 
 ### Error handling
 When methods return an error parameter by reference, switch on the **returned value**, not the error variable. Some of Apple’s APIs write garbage values to the error parameter (if non-NULL) in successful cases, so switching on the error can cause false negatives (and subsequently crash).
@@ -439,10 +409,6 @@ if (![self trySomethingWithError:&error]) {
     // Handle Error
 }
 ```
-
-### Comments
-* When they are needed, comments should be used to explain **why** a particular piece of code does something. Any comments that are used must be kept up-to-date or deleted.
-* Block comments should generally be avoided, as code should be as self-documenting as possible, with only the need for intermittent, few-line explanations. This does not apply to those comments used to generate documentation.
 
 ### Literals
 `NSString`, `NSDictionary`, `NSArray`, and `NSNumber` literals should be used whenever creating immutable instances of those objects. Pay special care that `nil` values not be passed into `NSArray` and `NSDictionary` literals, as this will cause a crash.
@@ -458,6 +424,63 @@ NSNumber *buildingZIPCode = @10018;
 **Not**
 ```objc
 NSArray *names = [NSArray arrayWithObjects:@"Brian", @"Matt", @"Chris", @"Alex", @"Steve", @"Paul", nil];
+```
+
+### Constants
+Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
+
+**Example**
+```objc
+static NSString * const NYTAboutViewControllerCompanyName = @"The New York Times Company";
+
+static const CGFloat NYTImageThumbnailHeight = 50.0;
+```
+
+### Case Statements
+Braces are not required for case statements, unless enforced by the complier.  
+When a case contains more than one line, braces should be added.
+
+There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.
+
+**Example**
+```objc
+switch (condition) {
+  case 1:
+    // ** fall-through! **
+  case 2:
+    // code executed for values 1 and 2
+    break;
+  default: 
+    // ...
+    break;
+}
+```
+
+### Golden Path
+When coding with conditionals, the left hand margin of the code should be the "golden" or "happy" path.  That is, don't nest `if` statements.  Multiple return statements are OK.
+
+**Example**
+```objc
+- (void)someMethod {
+  if (![someOther boolValue]) {
+  return;
+  }
+
+  //Do something important
+}
+```
+
+### Booleans
+Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits. This allows for more consistency across files and greater visual clarity.
+
+**Example**
+```objc
+if (!someObject) {
+  // Something
+}
+
+// BOOL example
+if (![someObject boolValue])
 ```
 
 ### CGRect Functions
@@ -478,51 +501,6 @@ CGFloat height = CGRectGetHeight(frame);
 CGRect frame = self.view.frame;
 CGFloat x = frame.origin.x;
 CGFloat width = frame.size.width;
-```
-
-### Constants
-Constants are preferred over in-line string literals or numbers, as they allow for easy reproduction of commonly used variables and can be quickly changed without the need for find and replace. Constants should be declared as `static` constants and not `#define`s unless explicitly being used as a macro.
-
-**Example**
-```objc
-static NSString * const NYTAboutViewControllerCompanyName = @"The New York Times Company";
-
-static const CGFloat NYTImageThumbnailHeight = 50.0;
-```
-
-### Booleans
-Since `nil` resolves to `NO` it is unnecessary to compare it in conditions. Never compare something directly to `YES`, because `YES` is defined to 1 and a `BOOL` can be up to 8 bits. This allows for more consistency across files and greater visual clarity.
-
-**Example**
-```objc
-if (!someObject) {
-  // Something
-}
-
-// BOOL example
-if (![someObject boolValue])
-```
-
-
-
-### Case Statements
-Braces are not required for case statements, unless enforced by the complier.  
-When a case contains more than one line, braces should be added.
-
-There are times when the same code can be used for multiple cases, and a fall-through should be used.  A fall-through is the removal of the 'break' statement for a case thus allowing the flow of execution to pass to the next case value.  A fall-through should be commented for coding clarity.
-
-**Example**
-```objc
-switch (condition) {
-  case 1:
-    // ** fall-through! **
-  case 2:
-    // code executed for values 1 and 2
-    break;
-  default: 
-    // ...
-    break;
-}
 ```
 
 # Plugins
